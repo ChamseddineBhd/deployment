@@ -31,6 +31,11 @@ jobs:
         env:
           BASTION_KEY: ${{secrets.BASTION_KEY_PROD_CLUSTER}}
 
+      - name: Create key
+        run: 'echo "$BASTION_HOST"'
+        env:
+          BASTION_HOST: ${{secrets.BASTION_KEY_PROD_CLUSTER}}
+
       - name: Deploy to Azure
         run: kubectl kustomize k8s/overlays/azure-prod | ssh -o "StrictHostKeyChecking no" -i key ${{ secrets.BASTION_LOGIN_PROD_CLUSTER }}@${{ secrets.BASTION_HOST_PROD_CLUSTER }} kubectl apply -f -
 
